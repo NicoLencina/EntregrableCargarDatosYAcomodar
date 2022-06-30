@@ -31,25 +31,35 @@ function mostrarDatos(
   dimensionArray: number
 ) {
   for (let i = 0; i < dimensionArray; i++) {
-    console.log("Nombre: " + nombres[i]);
-    console.log("Edad: " + edad[i]);
-    console.log("Altura: " + altura[i] + " centimetros");
+    console.log(
+      "Nombre: " +
+        nombres[i] +
+        " Edad: " +
+        edad[i] +
+        " Altura: " +
+        altura[i] +
+        " centimetros."
+    );
   }
 }
 
 // Se realiza comparacion de los valores de años y alturas en las posiciones [i] y [j],
-// devolviendo 0 si son iguales. -1 si lo que hay en i es menor de lo que hay en j y 1 si lo que hay en i es mayor que lo que hay en j.
-function comparar(edad: number[], altura: number[], i: number, j: number) {
-  let comparacion: number;
-  if (edad[i] === edad[j]) {
-    if (altura[i] === altura[j]) {
+// retorno 0 si tienen misma altura y edad, si lo que hay en i es menor de lo que hay en j -1 y si lo que hay en i es mayor que lo que hay en j 1
+function comparadorEdadYAltura(edad: number[], altura: number[], i: number) {
+  let comparacion: number = 0;
+  let b: number = i + 1;
+  //comparo por edad, en caso que sean iguales voy por la altura
+  if (edad[i] === edad[b]) {
+    if (altura[i] === altura[b]) {
       comparacion = 0;
-    } else if (altura[i] < altura[j]) {
+    } else if (altura[i] < altura[b]) {
       comparacion = -1;
     } else {
       comparacion = 1;
     }
-  } else if (edad[i] < edad[j]) {
+  }
+  //si las edades no son iguales, retorno el de mayor edad
+  else if (edad[i] < edad[b]) {
     comparacion = -1;
   } else {
     comparacion = 1;
@@ -57,40 +67,30 @@ function comparar(edad: number[], altura: number[], i: number, j: number) {
   return comparacion;
 }
 
-// Se usa una variable auxiliar para guardar el dato que se va a intercambiar
-function intercambiar(arreglo: number[], i: number, j: number) {
-  let aux: number;
-  aux = arreglo[i];
-  arreglo[i] = arreglo[j];
-  arreglo[j] = aux;
+//Intercambio los datos del arreglo moviendolo 1 posicion, guardo el dato a mover en copia
+function intercambiarValores(arreglo: number[], i: number) {
+  let copia: number;
+  let b: number = i + 1;
+  copia = arreglo[i];
+  arreglo[i] = arreglo[b];
+  arreglo[b] = copia;
 }
 
-//Se recorre el arreglo y achicando el recorrido del arreglo mientras se van ubicando en su lugar
-//Se realiza la comparacion de valores igualando a 1 para ver si corresponde intercambiar
-function burbuja(
-  nombres: string[],
-  edad: number[],
-  altura: number[],
-  dimensionArray: number
-) {
-  let i: number;
-  let j: number;
-  for (i = 0; i < dimensionArray - 1; i++) {
-    for (j = 0; j < dimensionArray - 1 - i; j++) {
-      if (comparar(edad, altura, j, j + 1) === 1) {
-        intercambiar(nombres, j, j + 1);
-        intercambiar(edad, j, j + 1);
-        intercambiar(altura, j, j + 1);
+function burbuja(nombres: string[], edad: number[], altura: number[]) {
+  for (let i = 0; i < nombres.length; i++) {
+    for (let j = 0; j < nombres.length - 1 - i; j++) {
+      if (comparadorEdadYAltura(edad, altura, j) === 1) {
+        intercambiarValores(nombres, j);
+        intercambiarValores(edad, j);
+        intercambiarValores(altura, j);
       }
     }
   }
 }
-
 // Se llama a las funciones, se pasan parametros.
 cargarPersonas(nombres, edad, altura, dimensionArray);
-console.log(`Arreglo cargado`);
+console.log("Arreglo Ingresado(Sin Ordenar)");
 mostrarDatos(nombres, edad, altura, dimensionArray);
-console.log(`Arreglo ordenado`);
-burbuja(nombres, edad, altura, dimensionArray);
+console.log("Arreglo Ordenado");
+burbuja(nombres, edad, altura);
 mostrarDatos(nombres, edad, altura, dimensionArray);
-1;
