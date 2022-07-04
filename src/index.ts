@@ -68,7 +68,7 @@ function comparadorEdadYAltura(edad: number[], altura: number[], i: number) {
 }
 
 //Intercambio los datos del arreglo moviendolo 1 posicion, guardo el dato a mover en copia
-function intercambiarValores(arreglo: number[], i: number) {
+function intercambiarValores(arreglo: any[], i: number) {
   let copia: number;
   let b: number = i + 1;
   copia = arreglo[i];
@@ -76,9 +76,14 @@ function intercambiarValores(arreglo: number[], i: number) {
   arreglo[b] = copia;
 }
 
-function burbuja(nombres: string[], edad: number[], altura: number[]) {
-  for (let i = 0; i < nombres.length; i++) {
-    for (let j = 0; j < nombres.length - 1 - i; j++) {
+function burbuja(
+  nombres: string[],
+  edad: number[],
+  altura: number[],
+  dimensionArray: number
+) {
+  for (let i = 0; i < dimensionArray - 1; i++) {
+    for (let j = 0; j < dimensionArray - 1 - i; j++) {
       if (comparadorEdadYAltura(edad, altura, j) === 1) {
         intercambiarValores(nombres, j);
         intercambiarValores(edad, j);
@@ -92,5 +97,5 @@ cargarPersonas(nombres, edad, altura, dimensionArray);
 console.log("Arreglo Ingresado(Sin Ordenar)");
 mostrarDatos(nombres, edad, altura, dimensionArray);
 console.log("Arreglo Ordenado");
-burbuja(nombres, edad, altura);
+burbuja(nombres, edad, altura, dimensionArray);
 mostrarDatos(nombres, edad, altura, dimensionArray);
